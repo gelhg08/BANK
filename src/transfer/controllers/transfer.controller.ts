@@ -1,40 +1,63 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { TransferService } from '../services/transfer.service';
+import { TransfersService } from '../services/transfer.service';
+import { TransferDto } from '../DTOs/common/bank.dto';
+import { PaginatedTransfersRequestDto } from '../DTOs/requests/paginated-bank-requests.dto';
+import { TransferResponseDto } from '../DTOs/response/bank-response.dto';
 
 @Controller('transfers')
 export class TransferController {
-  constructor(private readonly transferService: TransferService) {}
+  constructor(private readonly transferService: TransfersService) {}
+
+  @Post()
+  async create(@Body() transferDto: TransferDto): Promise<TransferDto> {
+    return await this.transferService.create(transferDto);
+  }
 
   @Get()
-  findAll(): any[] {
-    return this.transferService.findAll();
+  async findAll(): Promise<TransferDto[]> {
+    return await this.transferService.findAll();
+  }
+
+  @Get('paginated')
+  @HttpCode(HttpStatus.OK)
+  async findPaginated(
+    @Query() query: PaginatedTransfersRequestDto,
+  ): Promise<TransferResponseDto[]> {
+    const transferList = await this.transferService.findPaginated(
+      query,
+      { createdAt: -1 },
+      query.docsPerPage,
+      query.offset,
+    );
+    return transferList;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): any {
-    return this.transferService.findOne(+id);
-  }
-
-  @Post()
-  create(@Body() transfer: any): any {
-    return this.transferService.create(transfer);
+  async findOne(@Param('id') id: string): Promise<TransferDto> {
+    return await this.transferService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() transfer: any): any {
-    return this.transferService.update(+id, transfer);
+  async update(
+    @Param('id') id: string,
+    @Body() transferDto: TransferDto,
+  ): Promise<TransferDto> {
+    return await this.transferService.update(id, transferDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): any {
-    return this.transferService.remove(+id);
+  async remove(@Param('id') id: string): Promise<TransferDto> {
+    return await this.transferService.remove(id);
   }
 }
