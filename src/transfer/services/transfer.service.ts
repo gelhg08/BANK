@@ -1,16 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TransferDto } from '../DTOs/common/bank.dto';
-import { Transfer } from '../entities/bank.entity';
+import { TransferDto } from '../DTOs/common/transfer.dto';
 
 @Injectable()
 export class TransferService {
   private transfers: any[] = []; // Simulated in-memory database
 
-  findAll(): any[] {
+  findAll(): TransferDto[] {
     return this.transfers;
   }
 
-  findOne(id: number): any {
+  findOne(id: number): TransferDto {
     const transfer = this.transfers.find((t) => t.id === id);
     if (!transfer) {
       throw new NotFoundException(`Transfer with ID ${id} not found`);
@@ -18,13 +17,13 @@ export class TransferService {
     return transfer;
   }
 
-  create(transfer: any): any {
+  create(transfer: TransferDto): TransferDto {
     const newTransfer = { id: this.generateId(), ...transfer };
     this.transfers.push(newTransfer);
     return newTransfer;
   }
 
-  update(id: number, transfer: any): any {
+  update(id: number, transfer: TransferDto): TransferDto {
     const index = this.transfers.findIndex((t) => t.id === id);
     if (index === -1) {
       throw new NotFoundException(`Transfer with ID ${id} not found`);
@@ -33,7 +32,7 @@ export class TransferService {
     return this.transfers[index];
   }
 
-  remove(id: number): any {
+  remove(id: number): TransferDto {
     const index = this.transfers.findIndex((t) => t.id === id);
     if (index === -1) {
       throw new NotFoundException(`Transfer with ID ${id} not found`);

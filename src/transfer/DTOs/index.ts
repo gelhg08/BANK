@@ -1,2 +1,2 @@
-export * from './requests/bank-requests.dto';
-export * from './requests/paginated-bank-requests.dto';
+export * from './requests/transfer-requests.dto';
+export * from './requests/paginated-transfer-requests.dto';

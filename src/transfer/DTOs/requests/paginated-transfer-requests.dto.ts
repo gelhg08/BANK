@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { TransferRequestDto } from './bank-requests.dto';
+import { TransferRequestDto } from './transfer-requests.dto';
 
 export class PaginatedTransfersRequestDto extends TransferRequestDto {
   @IsNumber()

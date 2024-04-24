@@ -1,6 +1,6 @@
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TransferDto } from '../common/bank.dto';
+import { TransferDto } from '../common/transfer.dto';
 
 export class TransferResponseDto extends TransferDto {
   @IsNotEmpty()

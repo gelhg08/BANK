@@ -8,33 +8,34 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TransferService } from '../services/transfer.service';
+import { TransferDto } from '../DTOs/common/transfer.dto';
 
 @Controller('transfers')
 export class TransferController {
   constructor(private readonly transferService: TransferService) {}
 
   @Get()
-  findAll(): any[] {
+  findAll(): TransferDto[] {
     return this.transferService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): any {
+  findOne(@Param('id') id: string): TransferDto {
     return this.transferService.findOne(+id);
   }
 
   @Post()
-  create(@Body() transfer: any): any {
+  create(@Body() transfer: TransferDto): TransferDto {
     return this.transferService.create(transfer);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() transfer: any): any {
+  update(@Param('id') id: string, @Body() transfer: TransferDto): TransferDto {
     return this.transferService.update(+id, transfer);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): any {
+  remove(@Param('id') id: string): TransferDto {
     return this.transferService.remove(+id);
   }
 }
