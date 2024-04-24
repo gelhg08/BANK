@@ -1,72 +1,50 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, SortOrder } from 'mongoose';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TransferDto } from '../DTOs/common/bank.dto';
 import { Transfer } from '../entities/bank.entity';
 
 @Injectable()
-export class TransfersService {
-  constructor(
-    @InjectModel(Transfer.name) protected transferModel: Model<Transfer>,
-  ) {}
+export class TransferService {
+  private transfers: any[] = []; // Simulated in-memory database
 
-  async create(createTransferDto: TransferDto): Promise<Transfer> {
-    const createdTransfer = new this.transferModel(createTransferDto);
-    return createdTransfer.save();
+  findAll(): any[] {
+    return this.transfers;
   }
 
-  async findAll(): Promise<Transfer[]> {
-    return this.transferModel.find().exec();
+  findOne(id: number): any {
+    const transfer = this.transfers.find((t) => t.id === id);
+    if (!transfer) {
+      throw new NotFoundException(`Transfer with ID ${id} not found`);
+    }
+    return transfer;
   }
 
-  async findOne(id: string): Promise<Transfer> {
-    return this.transferModel.findOne({ id }).exec();
+  create(transfer: any): any {
+    const newTransfer = { id: this.generateId(), ...transfer };
+    this.transfers.push(newTransfer);
+    return newTransfer;
   }
 
-  findPaginated(
-    filter: FilterQuery<Transfer>,
-    sort?: Record<string, SortOrder>,
-    limit = 400,
-    skip = 0,
-  ): Promise<any[]> {
-    return this.transferModel
-      .find(filter)
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
-      .catch((error) =>
-        this.throwUnhandledError(
-          error,
-          'findSortedPaginated',
-          `Transfer couldn't be returned`,
-        ),
-      )
-      .then((records) => {
-        if (!records) {
-          return null;
-        }
-
-        return records.map((record) => this.mapEntityToDto(record));
-      });
+  update(id: number, transfer: any): any {
+    const index = this.transfers.findIndex((t) => t.id === id);
+    if (index === -1) {
+      throw new NotFoundException(`Transfer with ID ${id} not found`);
+    }
+    this.transfers[index] = { ...this.transfers[index], ...transfer };
+    return this.transfers[index];
   }
 
-  throwUnhandledError(error: any, context: string, message: string): never {
-    console.error(`Unhandled Error in ${context}:`, error);
-    throw new HttpException(message, HttpStatus.INTERNAL_SERVER_ERROR);
+  remove(id: number): any {
+    const index = this.transfers.findIndex((t) => t.id === id);
+    if (index === -1) {
+      throw new NotFoundException(`Transfer with ID ${id} not found`);
+    }
+    const deletedTransfer = this.transfers.splice(index, 1);
+    return deletedTransfer[0];
   }
 
-  mapEntityToDto(transfer: Transfer): TransferDto {
-    const { sender, recipient, amount, description, id } = transfer;
-    return { sender, recipient, amount, description, id };
-  }
-
-  async update(id: string, updateTransferDto: TransferDto): Promise<Transfer> {
-    return this.transferModel
-      .findOneAndUpdate({ id }, updateTransferDto, { new: true })
-      .exec();
-  }
-
-  async remove(id: string): Promise<Transfer> {
-    return this.transferModel.findOneAndDelete({ id }).exec();
+  private generateId(): number {
+    return this.transfers.length > 0
+      ? Math.max(...this.transfers.map((t) => t.id)) + 1
+      : 1;
   }
 }
