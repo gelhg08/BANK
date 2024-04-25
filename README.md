@@ -71,3 +71,59 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+# Sistema Bancario
+
+![Portada](ruta/a/imagen.png)
+
+## Insignias
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+## Índice
+
+1. [Descripción del Proyecto](#descripción-del-proyecto)
+2. [Estado del Proyecto](#estado-del-proyecto)
+3. [Demostración de Funciones y Aplicaciones](#demostración-de-funciones-y-aplicaciones)
+4. [Acceso al Proyecto](#acceso-al-proyecto)
+5. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+6. [Personas Contribuyentes](#personas-contribuyentes)
+7. [Personas Desarrolladoras del Proyecto](#personas-desarrolladoras-del-proyecto)
+8. [Licencia](#licencia)
+
+## Descripción del Proyecto
+
+Este proyecto es un sistema bancario simple desarrollado en NestJS con TypeScript. Permite gestionar cuentas bancarias, realizar transacciones y generar informes financieros.
+
+## Estado del Proyecto
+
+Actualmente, el proyecto se encuentra en estado: completo.
+
+## Funciones y Aplicaciones
+
+The system allows users to perform the following operations:
+
+- **Create Transfer**: Creates a new bank transfer.
+- **Read Transfer**: Retrieves details of an existing transfer.
+- **Update Transfer**: Updates information of an existing transfer.
+- **Delete Transfer**: Deletes an existing transfer.
+
+## Acceso al Proyecto
+
+Puedes acceder al proyecto en el siguiente enlace: [Repositorio en GitHub](https://github.com/gelhg08/Bank)
+
+## Tecnologías Utilizadas
+
+- **NestJS**: Node.js framework for building scalable web applications.
+- **TypeScript**: Typed programming language that compiles to JavaScript.
+- **DTOs (Data Transfer Objects)**: Objects used to define the structure of data transferred between application layers.
+
+## Personas Desarrolladoras del Proyecto
+
+- Angelica Hernandez Gil
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Para más detalles, consulta el archivo LICENSE.
+
+

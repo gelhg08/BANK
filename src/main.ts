@@ -5,10 +5,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT || 3000;
 
-  app.setGlobalPrefix('/v1/api/transfer');
+  app.setGlobalPrefix('/v1/api');
   await app.listen(port);
-  console.log(
-    `Application is running on: http://localhost:${port}/v1/api/transfer`,
-  );
+  console.log(`Application is running on: http://localhost:${port}/v1/api`);
 }
 bootstrap();
